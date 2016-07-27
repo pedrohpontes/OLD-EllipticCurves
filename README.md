@@ -11,3 +11,6 @@ The 'main' methods offer an example of usage but no user interface (one must alt
 # Reference
 All the algorithms are based on the following textbook:
 Joseph H. Silverman, The Arithmetic of Elliptic Curves. Springer, 2nd Edition, 2009.
+
+#Feedback
+The author is a beginner in coding, so any feedback would be greatly appreciated!
