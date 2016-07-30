@@ -8,6 +8,7 @@ public class EllCurvePoint {
 	private BigInteger y;
 	private BigInteger z;
 	private EllCurve curve;
+	private BigInteger order;
 	
 	
 	public EllCurvePoint(BigInteger a, BigInteger b, BigInteger c, EllCurve tocurve) {
@@ -21,6 +22,7 @@ public class EllCurvePoint {
 		y = b;
 		z = c;
 		curve = tocurve;
+		order = null;
 	}
 	
 	
@@ -51,6 +53,18 @@ public class EllCurvePoint {
 	
 	public EllCurve getCurve() {
 		return curve;
+	}
+	
+	
+	public void setOrder(BigInteger N) {
+		order = N;
+	}
+	
+	
+	//substitute to: if(order != null) return order;
+	//else calculate the order of the point
+	public BigInteger getOrder() {
+		return order;
 	}
 	
 	
@@ -220,7 +234,7 @@ public class EllCurvePoint {
 	
 	public EllCurvePoint multiplyByInteger(int n) {
 		
-		EllCurvePoint expP = this.clone();
+		EllCurvePoint expP = this;
 		EllCurvePoint nP = curve.identity();
 
 		if(n < 0) {
@@ -257,21 +271,20 @@ public class EllCurvePoint {
 		
 		BigInteger zero = BigInteger.ZERO;
 		BigInteger two = new BigInteger("2");
-		BigInteger nCopy = n.add(zero);
 
 		if(n.compareTo(zero) < 0) {
 			expP = expP.negatePt();
-			nCopy = nCopy.negate();
+			n = n.negate();
 		}
 				
-		if(nCopy.compareTo(zero) == 0) {
+		if(n.compareTo(zero) == 0) {
 			return nP;
 		}
 		
 		if(n.compareTo(BigInteger.ONE) == 0)
 			return expP;
 		
-		while(nCopy.compareTo(zero) > 0) {
+		while(n.compareTo(zero) > 0) {
 			
 			if( (n.mod(two)).compareTo(zero) != 0) {
 				nP = nP.addPoint(expP);
@@ -279,7 +292,7 @@ public class EllCurvePoint {
 			
 			expP = expP.doublePt();
 			
-			nCopy = nCopy.divide(two);
+			n = n.divide(two);
 		}
 		
 		return nP;
@@ -325,6 +338,29 @@ public class EllCurvePoint {
 	}	
 	
 	
+	public void deprojectify() {
+		BigInteger mod = curve.getMod();
+		z = z.mod(mod);
+		
+		if(z.compareTo(BigInteger.ZERO) == 0) {
+			x = BigInteger.ZERO;
+			y = BigInteger.ONE;
+			return;
+		}
+		
+		if(z.gcd(mod).compareTo(BigInteger.ONE) != 0) {
+			System.out.println("Error: cannot deprojectify point!");
+			return;
+		}
+		
+		BigInteger zInv = z.modInverse(mod);
+		
+		x = x.multiply(zInv).mod(mod);
+		y = y.multiply(zInv).mod(mod);
+		z = BigInteger.ONE;
+	}
+	
+	
 	public void printPoint() {
 		System.out.print("[");
 		System.out.print(x);
@@ -363,7 +399,7 @@ public class EllCurvePoint {
 		P.printPoint();
 		System.out.println();
 		
-		EllCurvePoint Q = P; 		
+		EllCurvePoint Q = P;
 		int n = 1;
 		
 		while(!Q.isEqualTo(curve.identity())) {
@@ -373,8 +409,7 @@ public class EllCurvePoint {
 		
 		System.out.print("[");
 		System.out.print(n);
-		System.out.print("] * P = O");
-		
+		System.out.print("] * P = O");		
 	}
 
 }
