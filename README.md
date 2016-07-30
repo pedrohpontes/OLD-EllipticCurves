@@ -8,6 +8,8 @@ EllCurvePoint.java: implements the definition of a point in an elliptic curve an
 
 LenstrasFactorization.java: an implementation of Lenstra's algorithm (modified?) to try to factor an integer.
 
+ECSign.java: Elliptic Curve Digital Signature Algorithm (incomplete).
+
 The 'main' methods offer an example of usage but no user interface (one must alter the code to alter the integer to be factored for example).
 
 # Reference
