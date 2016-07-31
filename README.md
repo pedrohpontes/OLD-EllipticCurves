@@ -1,5 +1,5 @@
 # EllipticCurves
-A library for dealing with elliptic and adding points in curves and implementations of some elliptic curves algorithms. So far we have Lenstra's factorization and ECDSA.
+A Java library for elliptic curves and implementations of some elliptic curves algorithms: Lenstra's factorization and ECDSA.
 
 # Description
 EllCurve.java: the main class defining elliptic curves.
