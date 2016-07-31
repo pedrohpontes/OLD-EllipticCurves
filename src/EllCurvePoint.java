@@ -7,31 +7,26 @@ public class EllCurvePoint {
 	private BigInteger x;
 	private BigInteger y;
 	private BigInteger z;
-	private EllCurve curve;
+	private final EllCurve curve;
 	private BigInteger order;
 	
 	
 	public EllCurvePoint(BigInteger a, BigInteger b, BigInteger c, EllCurve tocurve) {
 		
-		if(!tocurve.isPointInCurve(a, b, c)) {
-			System.out.println("Point not in curve!");
-			return;
-		}
+		if(!tocurve.isPointInCurve(a, b, c))
+			System.out.println("Error: point not in curve!");
 		
 		x = a;
 		y = b;
 		z = c;
 		curve = tocurve;
-		order = null;
 	}
 	
 	
 	public EllCurvePoint(BigInteger a, BigInteger b, EllCurve toCurve) {
 		
-		if(!toCurve.isPointInCurve(a, b)) {
-			System.out.println("Point not in curve!");
-			return;
-		}
+		if(!toCurve.isPointInCurve(a, b))
+			System.out.println("Error: point not in curve!");
 		
 		x = a;
 		y = b;
@@ -68,7 +63,7 @@ public class EllCurvePoint {
 	}
 	
 	
-	public EllCurvePoint addPoint(EllCurvePoint Q) {
+	public EllCurvePoint add(EllCurvePoint Q) {
 		
 		if(!curve.isPointInCurve(Q)) {
 			System.out.println("Adding point not in the curve!");
@@ -211,7 +206,7 @@ public class EllCurvePoint {
 	
 	
 	public EllCurvePoint doublePt() {
-		return this.addPoint(this);
+		return this.add(this);
 	}
 	
 	
@@ -232,7 +227,7 @@ public class EllCurvePoint {
 	}
 	
 	
-	public EllCurvePoint multiplyByInteger(int n) {
+	public EllCurvePoint multiply(int n) {
 		
 		EllCurvePoint expP = this;
 		EllCurvePoint nP = curve.identity();
@@ -252,7 +247,7 @@ public class EllCurvePoint {
 		while(n > 0) {
 			
 			if(n%2 != 0) {
-				nP = nP.addPoint(expP);
+				nP = nP.add(expP);
 			}
 			
 			expP = expP.doublePt();
@@ -264,7 +259,7 @@ public class EllCurvePoint {
 	}
 	
 	
-	public EllCurvePoint multiplyByInteger(BigInteger n) {
+	public EllCurvePoint multiply(BigInteger n) {
 		
 		EllCurvePoint expP = this;
 		EllCurvePoint nP = curve.identity();
@@ -287,7 +282,7 @@ public class EllCurvePoint {
 		while(n.compareTo(zero) > 0) {
 			
 			if( (n.mod(two)).compareTo(zero) != 0) {
-				nP = nP.addPoint(expP);
+				nP = nP.add(expP);
 			}
 			
 			expP = expP.doublePt();
@@ -403,7 +398,7 @@ public class EllCurvePoint {
 		int n = 1;
 		
 		while(!Q.isEqualTo(curve.identity())) {
-			Q = Q.addPoint(P);
+			Q = Q.add(P);
 			n++;
 		}
 		

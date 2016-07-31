@@ -15,7 +15,7 @@ public class LenstrasFactorization {
 		EllCurvePoint Q = P;
 		
 		for(int i = 1; i < LoopBound; i++) {
-			Q = Q.multiplyByInteger(i);
+			Q = Q.multiply(i);
 			
 			BigInteger z = Q.getCoords()[2];
 			z = z.gcd(N);

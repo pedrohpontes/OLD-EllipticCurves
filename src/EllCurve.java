@@ -4,13 +4,13 @@ import java.math.BigInteger;
 
 public class EllCurve {
 	
-	private BigInteger a1;
-	private BigInteger a2;
-	private BigInteger a3;
-	private BigInteger a4;
-	private BigInteger a6;
-	private BigInteger mod;
-	private BigInteger disc;
+	private final BigInteger a1;
+	private final BigInteger a2;
+	private final BigInteger a3;
+	private final BigInteger a4;
+	private final BigInteger a6;
+	private final BigInteger mod;
+	private final BigInteger disc;
 	
 	
 	public EllCurve(BigInteger c1, BigInteger c2, BigInteger c3, BigInteger c4, BigInteger c6, BigInteger p) {
